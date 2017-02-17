@@ -1,0 +1,19 @@
+This is a simple script I wrote to track my potential commute to an employer over a period of time. This uses google maps with traffic enabled to query the travel time of a given route at a given time. I then use a cron entry and a bash script to query it repeatedly during normal commute hours.
+
+Requirements: 
+The script uses python3 as well as a few modules.  
+USE:
+pip install -r requirements.txt 
+To install all the requirements.
+In order to use the script, you need a google maps api key, which is available from google, instructions are here: https://developers.google.com/maps/documentation/javascript/get-api-key
+
+The simplest way to run the script is to use the command:
+python3 commute_log.py --key $KEY --origin $ORIGIN --destination $DESTINATION
+
+$KEY = whatever your google maps api key is.
+$ORIGIN = your origin address
+$DESTINATION = your destination address.
+
+Run the script with the -h command to have an explanation of the possible commands. 
+
+I've included a sample bash script and crontab listing to check and log the commute during normal commuting hours. 

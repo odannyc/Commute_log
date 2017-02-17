@@ -1,0 +1,1 @@
+*/15 5,6,7,8,9,10,15,16,17,18,19,20 * * * /home/$user/google_commute/test.sh >> /home/$user/commute.log 2>&1
