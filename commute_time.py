@@ -11,11 +11,12 @@ load_dotenv(dotenv_path)
 
 @begin.start
 def run(
-        time: 'The time you would like to check the directions in the format: YYYY-MM-DDTHH:mm:ss'=env.get('TIME_FORMAT'),
-        key: 'Google maps API key that you are using.'=env.get('GOOGLE_MAPS_TOKEN'),
+        time: 'The time you would like to check the directions in the format: YYYY-MM-DDTHH:mm:ss'
+        =env.get('TIME_FORMAT', ''),
+        key: 'Google maps API key that you are using.'=env.get('GOOGLE_MAPS_TOKEN', ''),
         timezone: 'The timezone for the time.'=env.get('TIMEZONE', 'US/Eastern'),
-        origin: 'Origin address'=env.get('MAPS_ORIGIN'),
-        destination: 'Destination Address'=env.get('MAPS_DESTINATION'),
+        origin: 'Origin address'=env.get('MAPS_ORIGIN', ''),
+        destination: 'Destination Address'=env.get('MAPS_DESTINATION', ''),
         reverse: 'Whether to also print the Reverse route Directions'=env.get('REVERSE', False),
         verbose: 'Whether to print the output verbosely, or just use comma separated values.'=env.get('VERBOSE', False),
         ):
