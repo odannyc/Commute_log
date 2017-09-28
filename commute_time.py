@@ -1,20 +1,25 @@
 import begin
-
 import requests
-
 import arrow
+from os import environ as env
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 
 @begin.start
 def run(
-        time: 'The time you would like to check the directions in the format: YYYY-MM-DDTHH:mm:ss'='',
-        key: 'Google maps API key that you are using.'='',
-        timezone: 'The timezone for the time.'='US/Eastern',
-        origin: 'Origin address'='1 Madison Ave, New York, NY',
-        destination: 'Destination Address'='1 Central Park South, New York, NY',
-        reverse: 'Whether to also print the Reverse route Directions'=False,
-        verbose: 'Whether to print the output verbosely, or just use comma separated values.'=False,
+        time: 'The time you would like to check the directions in the format: YYYY-MM-DDTHH:mm:ss'=env.get('TIME_FORMAT'),
+        key: 'Google maps API key that you are using.'=env.get('GOOGLE_MAPS_TOKEN'),
+        timezone: 'The timezone for the time.'=env.get('TIMEZONE', 'US/Eastern'),
+        origin: 'Origin address'=env.get('MAPS_ORIGIN'),
+        destination: 'Destination Address'=env.get('MAPS_DESTINATION'),
+        reverse: 'Whether to also print the Reverse route Directions'=env.get('REVERSE', False),
+        verbose: 'Whether to print the output verbosely, or just use comma separated values.'=env.get('VERBOSE', False),
         ):
+
     if not time:
         # if no time, assume now. Time will be converted to timestamp since the
         # epoch
@@ -24,9 +29,9 @@ def run(
 
     if not key:
         print("Need a google maps API key.\n")
-        return
+        exit(1)
 
-    params = {}
+    params = dict()
     params['origin'] = origin
     params['destination'] = destination
     params['key'] = key
@@ -59,7 +64,7 @@ def run(
 
     timestring = arrow.now().format()
 
-    if(verbose):
+    if verbose:
         print("Time = {}".format(timestring))
         print('Duration:')
         print(forwardtime)
@@ -68,7 +73,7 @@ def run(
             print(reversetime)
 
     else:
-        if(reverse):
+        if reverse:
             print('{}, {}, {}'.format(timestring, forwardtime, reversetime))
         else:
             print('{}, {}'.format(timestring, forwardtime))
