@@ -12,7 +12,7 @@ load_dotenv(dotenv_path)
 @begin.start
 def run(
         time: 'The time you would like to check the directions in the format: YYYY-MM-DDTHH:mm:ss'
-        =env.get('TIME_FORMAT', ''),
+        =env.get('TIME', ''),
         key: 'Google maps API key that you are using.'=env.get('GOOGLE_MAPS_TOKEN', ''),
         timezone: 'The timezone for the time.'=env.get('TIMEZONE', 'US/Eastern'),
         origin: 'Origin address'=env.get('MAPS_ORIGIN', ''),
@@ -21,12 +21,12 @@ def run(
         verbose: 'Whether to print the output verbosely, or just use comma separated values.'=env.get('VERBOSE', False),
         ):
 
-    if not time:
+    if time and type(time) is str:
         # if no time, assume now. Time will be converted to timestamp since the
         # epoch
-        departure_time = arrow.now().timestamp
-    else:
         departure_time = arrow.get(time, tz=timezone).timestamp
+    else:
+        departure_time = arrow.now().timestamp
 
     if not key:
         print("Need a google maps API key.\n")
@@ -66,12 +66,12 @@ def run(
     timestring = arrow.now().format()
 
     if verbose:
-        print("Time = {}".format(timestring))
-        print('Duration:')
-        print(forwardtime)
-        if(reversetime):
-            print("Reverse:")
-            print(reversetime)
+        print('From: {}'.format(origin))
+        print('To: {}'.format(destination))
+        print('Time: {}'.format(timestring))
+        print('Duration: {}'.format(forwardtime))
+        if reversetime:
+            print('Reverse: {}'.format(reversetime))
 
     else:
         if reverse:
